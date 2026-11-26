@@ -16,10 +16,20 @@ REVIEW = (
 )
 
 
-def main() -> None:
+def render_review() -> str:
+    """Return the one-line review, stripped and single-line validated.
+
+    The review text is fixed and deterministic; this helper centralises
+    the length and single-line checks so the print path stays trivial.
+    """
     text = REVIEW.strip()
     assert 1 <= len(text) <= 140, f"review must be 1-140 chars, got {len(text)}"
     assert text == text.strip() and "\n" not in text
+    return text
+
+
+def main() -> None:
+    text = render_review()
     out_path = os.environ.get("ENTRY_OUTPUT", "/output/entry.txt")
     try:
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
